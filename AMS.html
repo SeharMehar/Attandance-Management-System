@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="logo.svg" />
+    <title>Smart Attendance Manager - Attendance System</title>
+    <link rel="stylesheet" href="AMS.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="login-screen" id="loginScreen">
+      <div class="login-box">
+        <h2>Login to Smart Attendance</h2>
+        <p>Enter your credentials to access the attendance dashboard.</p>
+        <div class="form-group">
+          <label>Username</label>
+          <input type="text" id="loginUser" placeholder="Enter your username" />
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="loginPass" placeholder="Enter your password" />
+        </div>
+        <p class="form-error" id="loginError"></p>
+        <button class="btn-primary" id="loginButton">Login</button>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <img src="logo.svg" alt="NexaPresence Logo" class="sidebar-logo-img" />
+      </div>
+      <nav class="sidebar-nav">
+        <a href="#" class="nav-item active" data-page="dashboard">
+          <i class="fa-solid fa-chart-pie"></i><span>Dashboard</span>
+        </a>
+        <a href="#" class="nav-item" data-page="students">
+          <i class="fa-solid fa-users"></i><span>Students</span>
+        </a>
+        <a href="#" class="nav-item" data-page="attendance">
+          <i class="fa-solid fa-calendar-check"></i><span>Attendance</span>
+        </a>
+        <a href="#" class="nav-item" data-page="timetable">
+          <i class="fa-solid fa-calendar-days"></i><span>Timetable</span>
+        </a>
+        <a href="#" class="nav-item" data-page="reports">
+          <i class="fa-solid fa-file-chart-column"></i><span>Reports</span>
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="admin-info">
+          <div class="admin-avatar">S</div>
+          <div>
+            <div class="admin-name">Sehar Mehar</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Top Bar -->
+      <header class="topbar">
+        <button class="menu-toggle" id="menuToggle">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <div class="topbar-center">
+          <div class="topbar-title" id="pageTitle">Dashboard</div>
+        </div>
+        <div class="topbar-right">
+          <button class="theme-toggle" id="themeToggle" title="Toggle Dark Mode">
+            <i class="fa-solid fa-moon"></i>
+          </button>
+          <div class="date-badge" id="currentDate"></div>
+          <button class="notif-btn">
+            <i class="fa-solid fa-bell"></i><span class="badge">3</span>
+          </button>
+          <button class="btn-outline logout-btn" id="logoutBtn">Logout</button>
+        </div>
+      </header>
+
+      <!-- Pages -->
+
+      <!-- DASHBOARD PAGE -->
+      <section class="page active" id="page-dashboard">
+        <div class="page-header">
+          <h1>Overview <span class="accent-dot">.</span></h1>
+          <p>Welcome back! Here's what's happening today.</p>
+        </div>
+        <div class="stats-grid" id="statsGrid"></div>
+        <div class="dashboard-bottom">
+          <div class="card chart-card">
+            <div class="card-header">
+              <h3>Weekly Attendance</h3>
+              <span class="tag">This Week</span>
+            </div>
+            <div class="bar-chart" id="barChart"></div>
+          </div>
+          <div class="card recent-card">
+            <div class="card-header">
+              <h3>Recent Activity</h3>
+            </div>
+            <ul class="activity-list" id="activityList"></ul>
+          </div>
+        </div>        <div class="overview-grid">
+          <div class="overview-card">
+            <h3>Problem Statement</h3>
+            <p>The manual attendance process is slow, error-prone, and hard to track for multiple classes.</p>
+          </div>
+          <div class="overview-card">
+            <h3>Unique Solution</h3>
+            <p>Smart Attendance Manager offers class filtering, instant analytics, and history tracking in one interface.</p>
+          </div>
+          <div class="overview-card">
+            <h3>New Feature</h3>
+            <p>Timetable integration lets teachers view schedules and link attendance with class periods.</p>
+          </div>
+          <div class="overview-card">
+            <h3>System Features</h3>
+            <ul>
+              <li>Student management</li>
+              <li>Attendance marking</li>
+              <li>Reports and analytics</li>
+              <li>Login system with Node backend support</li>
+            </ul>
+          </div>
+        </div>      </section>
+
+      <!-- STUDENTS PAGE -->
+      <section class="page" id="page-students">
+        <div class="page-header">
+          <h1>Students <span class="accent-dot">.</span></h1>
+          <p>Manage student records — add, edit, or remove.</p>
+        </div>
+        <div class="toolbar">
+          <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input
+              type="text"
+              id="studentSearch"
+              placeholder="Search students…"
+            />
+          </div>
+          <button class="btn-primary" id="openAddStudent">
+            <i class="fa-solid fa-plus"></i> Add Student
+          </button>
+        </div>
+        <div class="card table-card">
+          <table class="data-table" id="studentTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Roll No</th>
+                <th>Class</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="studentTableBody"></tbody>
+          </table>
+          <div class="empty-state" id="studentEmpty" style="display: none">
+            <i class="fa-solid fa-users-slash"></i>
+            <p>No students found.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ATTENDANCE PAGE -->
+      <section class="page" id="page-attendance">
+        <div class="page-header">
+          <h1>Attendance <span class="accent-dot">.</span></h1>
+          <p>Mark and manage daily attendance records.</p>
+        </div>
+        <div class="toolbar">
+          <div class="filter-group">
+            <label>Date</label>
+            <input type="date" id="attDate" />
+          </div>
+          <div class="filter-group">
+            <label>Class</label>
+            <select id="attClass">
+              <option value="">All Classes</option>
+              <option>BSIT</option>
+              <option>BSCS</option>
+              <option>BSDS</option>
+              <option>BSSE</option>
+              <option>BSCY</option>
+              <option>BBA</option>
+            </select>
+          </div>
+          <button class="btn-primary" id="loadAttendance">
+            <i class="fa-solid fa-arrow-rotate-right"></i> Load
+          </button>
+          <button class="btn-success" id="saveAttendance">
+            <i class="fa-solid fa-floppy-disk"></i> Save
+          </button>
+        </div>
+        <div class="card table-card">
+          <table class="data-table" id="attTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Roll No</th>
+                <th>Class</th>
+                <th>Status</th>
+                <th>Remark</th>
+              </tr>
+            </thead>
+            <tbody id="attTableBody"></tbody>
+          </table>
+          <div class="empty-state" id="attEmpty">
+            <i class="fa-solid fa-calendar-xmark"></i>
+            <p>Select a date and load students to mark attendance.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- TIMETABLE PAGE -->
+      <section class="page" id="page-timetable">
+        <div class="page-header">
+          <h1>Timetable <span class="accent-dot">.</span></h1>
+          <p>View class schedules for the current week.</p>
+        </div>
+        <div class="toolbar">
+          <button class="btn-primary" id="openAddSchedule">
+            <i class="fa-solid fa-plus"></i> Add Schedule
+          </button>
+          <button class="btn-success" id="saveTimetableTable">
+            <i class="fa-solid fa-floppy-disk"></i> Save Timetable
+          </button>
+        </div>
+        <div class="card table-card">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Day</th>
+                <th>08:00 - 09:30</th>
+                <th>09:45 - 11:15</th>
+                <th>11:30 - 13:00</th>
+                <th>14:00 - 15:30</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="timetableBody"></tbody>
+          </table>
+          <div class="empty-state" id="timetableEmpty">
+            <i class="fa-solid fa-calendar-days"></i>
+            <p>No timetable entries yet. Add a schedule to begin.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- REPORTS PAGE -->
+      <section class="page" id="page-reports">
+        <div class="page-header">
+          <h1>Reports <span class="accent-dot">.</span></h1>
+          <p>View detailed attendance analytics per student.</p>
+        </div>
+        <div class="toolbar">
+          <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input
+              type="text"
+              id="reportSearch"
+              placeholder="Search reports by name, roll no, or class"
+            />
+          </div>
+          <div class="filter-group">
+            <label for="reportClassFilter">Class</label>
+            <select id="reportClassFilter">
+              <option value="">All Classes</option>
+            </select>
+          </div>
+          <span class="date-badge" id="reportSummary">0 records</span>
+          <button class="btn-outline" id="exportReports">
+            <i class="fa-solid fa-file-arrow-down"></i> Export CSV
+          </button>
+        </div>
+        <div class="card table-card">
+          <table class="data-table" id="reportTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Roll No</th>
+                <th>Class</th>
+                <th>Total Days</th>
+                <th>Present</th>
+                <th>Absent</th>
+                <th>Late</th>
+                <th>Percentage</th>
+                <th>Grade</th>
+              </tr>
+            </thead>
+            <tbody id="reportTableBody"></tbody>
+          </table>
+          <div class="empty-state" id="reportEmpty" style="display: none">
+            <i class="fa-solid fa-chart-column"></i>
+            <p>No report records match the current filters.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- MODAL: Add/Edit Student -->
+    <div class="modal-overlay" id="studentModal">
+      <div class="modal">
+        <div class="modal-header">
+          <h2 id="modalTitle">Add Student</h2>
+          <button class="modal-close" id="closeModal">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Full Name *</label>
+              <input type="text" id="fName" placeholder="e.g. Ali Hassan" />
+            </div>
+            <div class="form-group">
+              <label>Roll Number *</label>
+              <input type="text" id="fRoll" placeholder="e.g. 2024-001" />
+            </div>
+            <div class="form-group">
+              <label>Class *</label>
+              <select id="fClass">
+                <option value="">Select Class</option>
+                <option>BSIT</option>
+                <option>BSCS</option>
+                <option>BSDS</option>
+                <option>BSSE</option>
+                <option>BSCY</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input
+                type="email"
+                id="fEmail"
+                placeholder="e.g. ali@school.edu"
+              />
+            </div>
+            <div class="form-group">
+              <label>Phone</label>
+              <input type="text" id="fPhone" placeholder="e.g. 0300-1234567" />
+            </div>
+            <div class="form-group">
+              <label>Status</label>
+              <select id="fStatus">
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+              </select>
+            </div>
+          </div>
+          <p class="form-error" id="formError"></p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-outline" id="cancelModal">Cancel</button>
+          <button class="btn-primary" id="saveStudent">Save Student</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL: Add/Edit Timetable -->
+    <div class="modal-overlay" id="timetableModal">
+      <div class="modal">
+        <div class="modal-header">
+          <h2 id="ttModalTitle">Add Timetable Entry</h2>
+          <button class="modal-close" id="closeTtModal">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Day</label>
+              <select id="ttDay">
+                <option value="">Select day</option>
+                <option>Monday</option>
+                <option>Tuesday</option>
+                <option>Wednesday</option>
+                <option>Thursday</option>
+                <option>Friday</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Slot 1</label>
+              <input type="text" id="ttSlot1" placeholder="Enter subject" />
+            </div>
+            <div class="form-group">
+              <label>Slot 2</label>
+              <input type="text" id="ttSlot2" placeholder="Enter subject" />
+            </div>
+            <div class="form-group">
+              <label>Slot 3</label>
+              <input type="text" id="ttSlot3" placeholder="Enter subject" />
+            </div>
+            <div class="form-group">
+              <label>Slot 4</label>
+              <input type="text" id="ttSlot4" placeholder="Enter subject" />
+            </div>
+          </div>
+          <p class="form-error" id="ttFormError"></p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-outline" id="cancelTtModal">Cancel</button>
+          <button class="btn-primary" id="saveTimetableEntry">Save Entry</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL: Confirm Delete -->
+    <div class="modal-overlay" id="deleteModal">
+      <div class="modal modal-sm">
+        <div class="modal-header">
+          <h2>Confirm Delete</h2>
+          <button class="modal-close" id="closeDelete">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Are you sure you want to delete
+            <strong id="deleteStudentName"></strong>? This action cannot be
+            undone.
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-outline" id="cancelDelete">Cancel</button>
+          <button class="btn-danger" id="confirmDelete">Yes, Delete</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL: Notifications -->
+    <div class="modal-overlay" id="notificationModal">
+      <div class="modal">
+        <div class="modal-header">
+          <h2>Notifications</h2>
+          <button class="modal-close" id="closeNotification">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <ul class="notification-list" id="notificationList">
+            <!-- Notifications will be populated here -->
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <script src="AMS.js"></script>
+  </body>
+</html>
